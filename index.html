@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Lover - Keep secrets out of AI reach</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0c0a09;
+            --bg-secondary: #1c1917;
+            --bg-tertiary: #292524;
+            --text-primary: #fafaf9;
+            --text-secondary: rgba(250, 250, 249, 0.7);
+            --text-tertiary: rgba(250, 250, 249, 0.5);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #f97316;
+            --accent-soft: rgba(249, 115, 22, 0.15);
+            --green: #22c55e;
+            --green-soft: rgba(34, 197, 94, 0.15);
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.125rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-soft);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            background: url('hero-bg.png') center top / cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(12, 10, 9, 0.3) 0%,
+                rgba(12, 10, 9, 0.7) 50%,
+                rgba(12, 10, 9, 1) 100%);
+            pointer-events: none;
+        }
+
+        .hero > .container {
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 32px;
+        }
+
+        /* Trust badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--green-soft);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 0.8125rem;
+            color: var(--green);
+        }
+
+        .trust-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Problem/Solution */
+        .problem {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .problem h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .comparison-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .comparison-card.bad {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .comparison-card.good {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .comparison-card h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comparison-card.bad h3 { color: #ef4444; }
+        .comparison-card.good h3 { color: #22c55e; }
+
+        .comparison-card pre {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+        }
+
+        .comparison-card .comment {
+            color: var(--text-tertiary);
+        }
+
+        /* Why trust */
+        .trust {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .trust h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .trust .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .trust-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .trust-item h3 {
+            font-size: 0.9375rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-item h3 svg {
+            width: 16px;
+            height: 16px;
+            color: var(--green);
+        }
+
+        .trust-item p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Claude Code section */
+        .claude-code {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            background: url('features-bg.png') center center / cover no-repeat;
+            position: relative;
+        }
+
+        .claude-code::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                var(--bg-primary) 0%,
+                rgba(12, 10, 9, 0.92) 20%,
+                rgba(12, 10, 9, 0.92) 80%,
+                var(--bg-primary) 100%);
+            pointer-events: none;
+        }
+
+        .claude-code > .container {
+            position: relative;
+        }
+
+        .claude-code h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .claude-code .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .workflow-demo {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .workflow-demo pre {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.8;
+        }
+
+        .workflow-demo .comment { color: var(--text-tertiary); }
+        .workflow-demo .file { color: #60a5fa; }
+        .workflow-demo .cmd { color: var(--text-primary); }
+        .workflow-demo .output { color: var(--text-secondary); }
+        .workflow-demo .success { color: var(--green); }
+        .workflow-demo .touchid { color: var(--accent); }
+
+        /* DIY Section */
+        .diy {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .diy h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .diy .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .diy-code {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+
+        .diy-code pre {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .diy-code .comment { color: var(--text-tertiary); }
+        .diy-code .cmd { color: var(--text-primary); }
+
+        .diy-note {
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        /* Prompt section */
+        .prompt {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .prompt h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .prompt .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .prompt-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            max-width: 700px;
+            margin: 0 auto 24px;
+            overflow: hidden;
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--accent-soft);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .copy-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .copy-btn.copied {
+            background: var(--green);
+        }
+
+        .prompt-box pre {
+            padding: 20px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+        }
+
+        /* Install */
+        .install {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .install h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .install .lead {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .install-code {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 24px;
+            display: inline-block;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.9375rem;
+            margin-bottom: 16px;
+        }
+
+        .install-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .install-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .install-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .comparison { grid-template-columns: 1fr; }
+            .trust-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">S</span>
+                Secret Lover
+            </div>
+            <ul class="nav-links">
+                <li><a href="#prompt">Just the prompt</a></li>
+                <li><a href="#trust">Why trust it</a></li>
+                <li><a href="https://github.com/dereklomas/secret-lover">Source</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Keep secrets out of AI reach</h1>
+            <p class="subtitle">When AI coding assistants can read your .env files, that's a problem. Store secrets in macOS Keychain instead. AI sees what you need, not the values.</p>
+
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    100% local
+                </div>
+                <div class="trust-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Uses macOS Keychain
+                </div>
+                <div class="trust-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    ~200 lines of bash
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem">
+        <div class="container">
+            <h2>The problem with .env files</h2>
+            <div class="comparison">
+                <div class="comparison-card bad">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        .env files
+                    </h3>
+<pre><span class="comment"># Your .env file - AI can read this</span>
+STRIPE_SECRET_KEY=sk_live_abc123...
+DATABASE_URL=postgres://user:pass@host
+OPENAI_API_KEY=sk-proj-xyz789...
+
+<span class="comment"># AI assistant asks:</span>
+"I see your STRIPE_SECRET_KEY, want me to
+ set up the payment webhook?"
+
+<span class="comment"># Your key is now in the conversation,
+# potentially in logs, training data...</span></pre>
+                </div>
+                <div class="comparison-card good">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        .secrets.json manifest
+                    </h3>
+<pre><span class="comment"># Your .secrets.json - AI sees this</span>
+{
+  "secrets": {
+    "STRIPE_SECRET_KEY": "Stripe API key",
+    "DATABASE_URL": "PostgreSQL connection",
+    "OPENAI_API_KEY": "OpenAI API key"
+  }
+}
+
+<span class="comment"># AI assistant suggests:</span>
+"Run: secret-lover run -- npm run dev"
+
+<span class="comment"># Values stay in Keychain, injected only
+# at runtime with your Touch ID approval</span></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust" id="trust">
+        <div class="container">
+            <h2>Why you can trust it</h2>
+            <p class="lead">No server. No account. No magic. Just a shell script wrapping macOS security tools you already have.</p>
+
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        100% local
+                    </h3>
+                    <p>Nothing leaves your machine. No servers, no accounts, no telemetry. Works offline.</p>
+                </div>
+                <div class="trust-item">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Apple's security
+                    </h3>
+                    <p>Secrets stored in macOS Keychain - the same place Safari stores your passwords. Encrypted by Apple.</p>
+                </div>
+                <div class="trust-item">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Fully auditable
+                    </h3>
+                    <p>~200 lines of bash. No dependencies. Read the whole thing in 5 minutes. Uses standard `security` CLI.</p>
+                </div>
+                <div class="trust-item">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        You're in control
+                    </h3>
+                    <p>Every secret access logged. Touch ID prompt shows exactly what's being accessed. Deny anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="claude-code">
+        <div class="container">
+            <h2>Works with Claude Code, Cursor, etc.</h2>
+            <p class="lead">AI reads your manifest, suggests the right command. You approve with Touch ID.</p>
+
+            <div class="workflow-demo">
+<pre><span class="comment"># In your project, create .secrets.json:</span>
+<span class="file">~/myproject/.secrets.json</span>
+{
+  "secrets": {
+    "DATABASE_URL": "PostgreSQL connection string",
+    "API_KEY": "Main API key"
+  }
+}
+
+<span class="comment"># Claude Code sees the manifest, suggests:</span>
+<span class="output">"I see you need DATABASE_URL and API_KEY.
+ Run: secret-lover run -- npm run dev"</span>
+
+<span class="comment"># You run it, Touch ID pops up:</span>
+<span class="cmd">$ secret-lover run -- npm run dev</span>
+<span class="touchid">[Touch ID prompt: "secret-lover" wants to access "DATABASE_URL"]</span>
+
+<span class="comment"># You approve, secrets injected for that command only:</span>
+<span class="success">Ready on http://localhost:3000</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="prompt" id="prompt">
+        <div class="container">
+            <h2>Just want to tell Claude Code what to do?</h2>
+            <p class="lead">Copy this to your CLAUDE.md or paste it in chat. No install needed.</p>
+
+            <div class="prompt-box">
+                <div class="prompt-header">
+                    <span>Copy to ~/.claude/CLAUDE.md or paste in chat</span>
+                    <button class="copy-btn" onclick="copyPrompt()">Copy</button>
+                </div>
+<pre id="claude-prompt">## Secrets Management
+
+Never store secrets in .env files. Use macOS Keychain instead.
+
+**To store a secret:**
+security add-generic-password -a "SECRET_NAME" -s "my-secrets" -w "value"
+
+**To use secrets in commands:**
+SECRET_NAME=$(security find-generic-password -a "SECRET_NAME" -s "my-secrets" -w) npm run dev
+
+**When I need secrets:**
+1. Check if .secrets.json exists (lists what secrets the project needs)
+2. Suggest the keychain command pattern above
+3. Never ask me to create .env files or export secrets in shell
+
+**If a secret is missing:**
+Tell me to add it: security add-generic-password -a "NAME" -s "my-secrets" -w</pre>
+            </div>
+
+            <p class="diy-note">That's it. Claude Code will use Keychain commands instead of .env files.</p>
+        </div>
+    </section>
+
+    <section class="diy" id="diy">
+        <div class="container">
+            <h2>The raw commands (for the curious)</h2>
+            <p class="lead">Here's exactly what's happening under the hood:</p>
+
+            <div class="diy-code">
+<pre><span class="comment"># Store a secret in macOS Keychain:</span>
+<span class="cmd">security add-generic-password -a "MY_API_KEY" -s "secret-lover" -w "your-secret-value"</span>
+
+<span class="comment"># Retrieve a secret (will prompt for password/Touch ID):</span>
+<span class="cmd">security find-generic-password -a "MY_API_KEY" -s "secret-lover" -w</span>
+
+<span class="comment"># Run a command with secrets as env vars:</span>
+<span class="cmd">MY_API_KEY=$(security find-generic-password -a "MY_API_KEY" -s "secret-lover" -w) npm run dev</span>
+
+<span class="comment"># List all your secrets:</span>
+<span class="cmd">security dump-keychain | grep -A4 'svce.*secret-lover' | grep acct</span>
+
+<span class="comment"># Delete a secret:</span>
+<span class="cmd">security delete-generic-password -a "MY_API_KEY" -s "secret-lover"</span></pre>
+            </div>
+
+            <p class="diy-note">secret-lover just wraps these with nicer UX. The real security is Apple's.</p>
+        </div>
+    </section>
+
+    <section class="install" id="install">
+        <div class="container">
+            <h2>Or install the helper</h2>
+            <p class="lead">If you want the nicer workflow with .secrets.json manifests:</p>
+            <div class="install-code">curl -sL https://secret-lover.dev/install.sh | bash</div>
+            <div class="install-links">
+                <a href="https://github.com/dereklomas/secret-lover">View source on GitHub</a>
+                <a href="https://github.com/dereklomas/secret-lover/blob/main/bin/secret-lover">Read the code (~200 lines)</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Made for developers who use AI coding assistants and value their secrets.</p>
+        </div>
+    </footer>
+<script src="input-widget.js"></script>
+<script>
+function copyPrompt() {
+    const text = document.getElementById('claude-prompt').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
+</body>
+</html>
