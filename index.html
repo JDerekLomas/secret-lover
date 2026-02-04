@@ -332,6 +332,79 @@
         .workflow-demo .success { color: var(--green); }
         .workflow-demo .touchid { color: var(--accent); }
 
+        /* Namespacing Section */
+        .namespacing {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .namespacing h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .namespacing .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .namespace-demo {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 700px;
+            margin: 0 auto 32px;
+        }
+
+        .namespace-demo pre {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.8;
+        }
+
+        .namespace-demo .comment { color: var(--text-tertiary); }
+        .namespace-demo .file { color: #60a5fa; }
+        .namespace-demo .cmd { color: var(--text-primary); }
+        .namespace-demo .success { color: var(--green); }
+
+        .namespace-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .namespace-feature {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .namespace-feature h3 {
+            font-size: 0.9375rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .namespace-feature p {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .namespace-feature code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
         /* DIY Section */
         .diy {
             padding: 60px 0;
@@ -510,6 +583,7 @@
             .hero h1 { font-size: 2rem; }
             .comparison { grid-template-columns: 1fr; }
             .trust-grid { grid-template-columns: 1fr; }
+            .namespace-features { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -521,8 +595,8 @@
                 Secret Lover
             </div>
             <ul class="nav-links">
+                <li><a href="#namespacing">Per-project</a></li>
                 <li><a href="#prompt">Just the prompt</a></li>
-                <li><a href="#trust">Why trust it</a></li>
                 <li><a href="https://github.com/dereklomas/secret-lover">Source</a></li>
             </ul>
         </div>
@@ -588,6 +662,7 @@ OPENAI_API_KEY=sk-proj-xyz789...
                     </h3>
 <pre><span class="comment"># Your .secrets.json - AI sees this</span>
 {
+  "project": "my-app",
   "secrets": {
     "STRIPE_SECRET_KEY": "Stripe API key",
     "DATABASE_URL": "PostgreSQL connection",
@@ -652,6 +727,7 @@ OPENAI_API_KEY=sk-proj-xyz789...
 <pre><span class="comment"># In your project, create .secrets.json:</span>
 <span class="file">~/myproject/.secrets.json</span>
 {
+  "project": "myproject",
   "secrets": {
     "DATABASE_URL": "PostgreSQL connection string",
     "API_KEY": "Main API key"
@@ -668,6 +744,64 @@ OPENAI_API_KEY=sk-proj-xyz789...
 
 <span class="comment"># You approve, secrets injected for that command only:</span>
 <span class="success">Ready on http://localhost:3000</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="namespacing" id="namespacing">
+        <div class="container">
+            <h2>Per-project secrets</h2>
+            <p class="lead">Different projects, different credentials. Same workflow.</p>
+
+            <div class="namespace-demo">
+<pre><span class="comment"># Project A - Production Supabase</span>
+<span class="file">~/project-a/.secrets.json</span>
+{
+  "project": "project-a",
+  "secrets": {
+    "SUPABASE_URL": "Production Supabase instance",
+    "SUPABASE_KEY": "Production anon key"
+  }
+}
+
+<span class="cmd">$ cd ~/project-a</span>
+<span class="cmd">$ secret-lover add SUPABASE_URL "https://abc.supabase.co"</span>
+<span class="success">Stored: SUPABASE_URL (project: project-a)</span>
+
+<span class="comment"># Project B - Staging Supabase (completely separate)</span>
+<span class="file">~/project-b/.secrets.json</span>
+{
+  "project": "project-b",
+  "secrets": {
+    "SUPABASE_URL": "Staging Supabase instance",
+    "SUPABASE_KEY": "Staging anon key"
+  }
+}
+
+<span class="cmd">$ cd ~/project-b</span>
+<span class="cmd">$ secret-lover add SUPABASE_URL "https://xyz.supabase.co"</span>
+<span class="success">Stored: SUPABASE_URL (project: project-b)</span>
+
+<span class="comment"># Shared secrets work everywhere</span>
+<span class="cmd">$ secret-lover add OPENAI_KEY "sk-..." --global</span>
+<span class="success">Stored: OPENAI_KEY (global)</span>
+
+<span class="comment"># Each project gets its own SUPABASE_URL, shares OPENAI_KEY</span></pre>
+            </div>
+
+            <div class="namespace-features">
+                <div class="namespace-feature">
+                    <h3>Auto-detected</h3>
+                    <p>Project name comes from .secrets.json or folder name. No config needed.</p>
+                </div>
+                <div class="namespace-feature">
+                    <h3>Fallback to global</h3>
+                    <p>If a secret isn't project-specific, it checks global. Shared keys just work.</p>
+                </div>
+                <div class="namespace-feature">
+                    <h3>See everything</h3>
+                    <p><code>secret-lover list --all</code> shows secrets organized by project.</p>
+                </div>
             </div>
         </div>
     </section>
