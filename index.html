@@ -118,6 +118,12 @@
             position: relative;
         }
 
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 24px rgba(249, 115, 22, 0.3));
+        }
+
         .hero h1 {
             font-size: 2.75rem;
             font-weight: 600;
@@ -518,6 +524,99 @@
             white-space: pre-wrap;
         }
 
+        /* Comparison section */
+        .comparison-section {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .comparison-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .comparison-section .lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .comparison-table-wrap {
+            max-width: 700px;
+            margin: 0 auto 32px;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-secondary);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .comparison-table td:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .comparison-table td.yes {
+            color: var(--green);
+        }
+
+        .comparison-table td.no {
+            color: var(--text-tertiary);
+        }
+
+        .when-to-use {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .use-case {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .use-case h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .use-case p {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
         /* Install */
         .install {
             padding: 60px 0;
@@ -584,6 +683,10 @@
             .comparison { grid-template-columns: 1fr; }
             .trust-grid { grid-template-columns: 1fr; }
             .namespace-features { grid-template-columns: 1fr; }
+            .when-to-use { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.75rem; }
+            .comparison-table th,
+            .comparison-table td { padding: 8px 10px; }
         }
     </style>
 </head>
@@ -604,10 +707,17 @@
 
     <section class="hero">
         <div class="container">
+            <div class="hero-icon">🤫</div>
             <h1>Keep secrets out of AI reach</h1>
-            <p class="subtitle">When AI coding assistants can read your .env files, that's a problem. Store secrets in macOS Keychain instead. AI sees what you need, not the values.</p>
+            <p class="subtitle">When AI coding assistants can read your .env files, that's a problem. Store secrets in macOS Keychain with Touch ID protection. AI sees what you need, not the values.</p>
 
             <div class="trust-badges">
+                <div class="trust-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Touch ID protected
+                </div>
                 <div class="trust-badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -618,13 +728,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
-                    Uses macOS Keychain
-                </div>
-                <div class="trust-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
-                    ~200 lines of bash
+                    macOS Keychain
                 </div>
             </div>
         </div>
@@ -710,9 +814,9 @@ OPENAI_API_KEY=sk-proj-xyz789...
                 <div class="trust-item">
                     <h3>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        You're in control
+                        Touch ID approval
                     </h3>
-                    <p>Every secret access logged. Touch ID prompt shows exactly what's being accessed. Deny anytime.</p>
+                    <p>Every secret access requires your fingerprint. See exactly what's being accessed. Deny anytime.</p>
                 </div>
             </div>
         </div>
@@ -841,33 +945,95 @@ Tell me to add it: security add-generic-password -a "NAME" -s "my-secrets" -w</p
 
     <section class="diy" id="diy">
         <div class="container">
-            <h2>The raw commands (for the curious)</h2>
-            <p class="lead">Here's exactly what's happening under the hood:</p>
+            <h2>Quick reference</h2>
+            <p class="lead">Common commands at a glance:</p>
 
             <div class="diy-code">
-<pre><span class="comment"># Store a secret in macOS Keychain:</span>
-<span class="cmd">security add-generic-password -a "MY_API_KEY" -s "secret-lover" -w "your-secret-value"</span>
+<pre><span class="comment"># Store a secret (Touch ID protected):</span>
+<span class="cmd">secret-lover add MY_API_KEY "your-secret-value"</span>
 
-<span class="comment"># Retrieve a secret (will prompt for password/Touch ID):</span>
-<span class="cmd">security find-generic-password -a "MY_API_KEY" -s "secret-lover" -w</span>
+<span class="comment"># Retrieve a secret (prompts Touch ID):</span>
+<span class="cmd">secret-lover get MY_API_KEY</span>
 
-<span class="comment"># Run a command with secrets as env vars:</span>
-<span class="cmd">MY_API_KEY=$(security find-generic-password -a "MY_API_KEY" -s "secret-lover" -w) npm run dev</span>
+<span class="comment"># Run a command with secrets injected:</span>
+<span class="cmd">secret-lover run -- npm run dev</span>
 
 <span class="comment"># List all your secrets:</span>
-<span class="cmd">security dump-keychain | grep -A4 'svce.*secret-lover' | grep acct</span>
+<span class="cmd">secret-lover list --all</span>
 
-<span class="comment"># Delete a secret:</span>
-<span class="cmd">security delete-generic-password -a "MY_API_KEY" -s "secret-lover"</span></pre>
+<span class="comment"># Migrate existing secrets to Touch ID:</span>
+<span class="cmd">secret-lover migrate</span></pre>
             </div>
 
-            <p class="diy-note">secret-lover just wraps these with nicer UX. The real security is Apple's.</p>
+            <p class="diy-note">Uses a Swift helper for Touch ID integration. Falls back to password if Touch ID unavailable.</p>
+        </div>
+    </section>
+
+    <section class="comparison-section" id="vs">
+        <div class="container">
+            <h2>vs cross-keychain</h2>
+            <p class="lead">Different tools for different problems.</p>
+
+            <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>secret-lover</th>
+                            <th>cross-keychain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Platform</td>
+                            <td>macOS only</td>
+                            <td>Windows, macOS, Linux</td>
+                        </tr>
+                        <tr>
+                            <td>Touch ID</td>
+                            <td class="yes">Yes (native Swift)</td>
+                            <td class="no">No</td>
+                        </tr>
+                        <tr>
+                            <td>Dependencies</td>
+                            <td>None (bash + Swift)</td>
+                            <td>Node.js + native modules</td>
+                        </tr>
+                        <tr>
+                            <td>Use case</td>
+                            <td>CLI for dev workflows</td>
+                            <td>Programmatic API for apps</td>
+                        </tr>
+                        <tr>
+                            <td>Project namespacing</td>
+                            <td class="yes">Built-in</td>
+                            <td class="no">No</td>
+                        </tr>
+                        <tr>
+                            <td>AI-focused</td>
+                            <td class="yes">Yes (.secrets.json manifest)</td>
+                            <td class="no">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="when-to-use">
+                <div class="use-case">
+                    <h3>Use cross-keychain when:</h3>
+                    <p>Building a Node.js app that needs to store user credentials programmatically across platforms.</p>
+                </div>
+                <div class="use-case">
+                    <h3>Use secret-lover when:</h3>
+                    <p>You're a developer using AI assistants and want Touch ID-protected secrets that stay out of AI context.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="install" id="install">
         <div class="container">
-            <h2>Or install the helper</h2>
+            <h2>Install</h2>
             <p class="lead">If you want the nicer workflow with .secrets.json manifests:</p>
             <div class="install-code">curl -sL https://secret-lover.dev/install.sh | bash</div>
             <div class="install-links">
