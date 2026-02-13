@@ -1086,43 +1086,52 @@ OPENAI_API_KEY=sk-proj-xyz789...
 
     <section class="prompt" id="prompt">
         <div class="container">
-            <h2>Add to your CLAUDE.md</h2>
-            <p class="lead">Drop this in your global instructions so Claude Code knows how to handle secrets.</p>
+            <h2>Don't want to install anything?</h2>
+            <p class="lead">Paste this into your CLAUDE.md. Claude Code will manage secrets via macOS Keychain directly — no tool needed.</p>
 
             <div class="prompt-box">
                 <div class="prompt-header">
                     <span>Copy to ~/.claude/CLAUDE.md</span>
                     <button class="copy-btn" onclick="copyPrompt()">Copy</button>
                 </div>
-<pre id="claude-prompt">## Secrets Management (secret-lover)
+<pre id="claude-prompt">## Secrets Management
 
-Secrets are in macOS Keychain, NOT .env files. Check `.secrets.json` for what a project needs.
+Never store secrets in .env files. Use macOS Keychain instead.
 
-```bash
-secret-lover list              # See what's stored
-secret-lover get NAME          # Retrieve a secret (Touch ID)
-secret-lover add NAME          # Store a new secret
-secret-lover run -- &lt;cmd&gt;      # Run command with all secrets injected
-secret-lover verify            # Check all project secrets exist
-```
-
-**.secrets.json format:**
+Projects declare what secrets they need in `.secrets.json`:
 ```json
 {
   "secrets": ["API_KEY", "DATABASE_URL"],
   "env": { "NODE_ENV": "production" }
 }
 ```
-- `secrets` array = names of keys in Keychain (fetched via Touch ID)
-- `env` object = static values injected directly
+
+**Reading secrets from Keychain:**
+```bash
+security find-generic-password -a "SECRET_NAME" -s "my-project" -w
+```
+
+**Storing a new secret:**
+```bash
+security add-generic-password -a "SECRET_NAME" -s "my-project" -w "value"
+```
+
+**Running a command with secrets injected:**
+Read each name from the `secrets` array in `.secrets.json`, fetch from
+Keychain using the command above, and export as environment variables
+before running the command. Use the project directory name as the
+service name (-s flag).
+
+For static values in the `env` object, export them directly.
 
 **Rules:**
-- Never search for .env files, hardcode secrets, or suggest `export VAR=value`
-- To run with secrets: `secret-lover run -- npm run dev`
-- If a secret is missing: `secret-lover add NAME`</pre>
+- Never create .env files or suggest `export VAR=value` in shell
+- Never hardcode secret values in code
+- If `.secrets.json` exists, check it to know what secrets are needed
+- If a secret is missing from Keychain, tell me to add it</pre>
             </div>
 
-            <p class="diy-note">Claude Code will use secret-lover instead of .env files for all credential access.</p>
+            <p class="diy-note">That's it. Claude Code will use Keychain commands instead of .env files — same idea as secret-lover, zero install.</p>
         </div>
     </section>
 
