@@ -697,135 +697,175 @@
             color: var(--text-secondary);
         }
 
+        /* ===== Tablet (768px) ===== */
         @media (max-width: 768px) {
-            /* Navigation */
-            .nav-links {
-                gap: 16px;
+            .container {
+                padding: 0 20px;
             }
-            .nav-links a {
-                font-size: 0.8125rem;
-            }
+
+            /* Nav */
+            .nav-links { gap: 20px; }
+            .nav-links a { font-size: 0.8125rem; }
 
             /* Hero */
-            .hero {
-                padding: 60px 0 48px;
-            }
-            .hero-icon {
-                font-size: 3rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero .subtitle {
-                font-size: 1rem;
-            }
-            .trust-badges {
-                gap: 8px;
-            }
-            .trust-badge {
-                font-size: 0.75rem;
-                padding: 5px 10px;
-            }
+            .hero { padding: 56px 0 44px; }
+            .hero-icon { font-size: 3rem; margin-bottom: 16px; }
+            .hero h1 { font-size: 2rem; margin-bottom: 16px; }
+            .hero .subtitle { font-size: 1rem; margin-bottom: 24px; }
+            .trust-badges { gap: 8px; margin-bottom: 28px; }
+            .trust-badge { font-size: 0.75rem; padding: 5px 12px; }
 
-            /* Sections */
+            /* Section spacing */
             .problem, .trust, .claude-code, .namespacing, .diy, .prompt, .comparison-section, .install {
-                padding: 48px 0;
+                padding: 44px 0;
             }
             .problem h2, .trust h2, .claude-code h2, .namespacing h2, .diy h2, .prompt h2, .comparison-section h2, .install h2 {
                 font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+            .trust .lead, .claude-code .lead, .namespacing .lead, .diy .lead, .prompt .lead, .comparison-section .lead, .install .lead {
+                font-size: 0.9375rem;
+                margin-bottom: 24px;
             }
 
             /* Grids to single column */
-            .comparison { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: 1fr; }
-            .namespace-features { grid-template-columns: 1fr; }
-            .when-to-use { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; gap: 16px; }
+            .trust-grid { grid-template-columns: 1fr; gap: 12px; }
+            .namespace-features { grid-template-columns: 1fr; gap: 12px; }
+            .when-to-use { grid-template-columns: 1fr; gap: 12px; }
 
-            /* Code blocks - horizontal scroll */
+            /* Code blocks */
+            .workflow-demo, .namespace-demo, .diy-code { padding: 16px; }
+            .prompt-box pre { padding: 16px; }
             .workflow-demo pre,
             .namespace-demo pre,
             .diy-code pre,
             .prompt-box pre,
             .comparison-card pre {
-                font-size: 0.75rem;
+                font-size: 0.6875rem;
+                line-height: 1.6;
                 overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
-            .workflow-demo,
-            .namespace-demo,
-            .diy-code,
-            .prompt-box {
-                padding: 16px;
-            }
+
+            /* Cards */
+            .comparison-card { padding: 16px; }
+            .trust-item, .namespace-feature, .use-case { padding: 16px; }
+
+            /* Table */
+            .comparison-table { font-size: 0.8125rem; }
+            .comparison-table th, .comparison-table td { padding: 10px 12px; }
 
             /* Install */
             .install-code {
                 display: block;
-                font-size: 0.75rem;
+                font-size: 0.8125rem;
                 padding: 12px 16px;
                 overflow-x: auto;
                 white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
             }
-            .install-links {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            /* Table */
-            .comparison-table { font-size: 0.75rem; }
-            .comparison-table th,
-            .comparison-table td { padding: 8px 10px; }
+            .install-links { flex-direction: column; gap: 12px; }
 
             /* Prompt header */
             .prompt-header {
                 flex-direction: column;
                 gap: 10px;
                 text-align: center;
+                padding: 10px 16px;
+                font-size: 0.75rem;
             }
         }
 
+        /* ===== Phone (480px) ===== */
         @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
+            .container { padding: 0 16px; }
 
-            /* Hide nav links on very small screens */
-            .nav-links {
-                display: none;
-            }
+            /* Nav: show only logo */
+            .nav-links { display: none; }
+            nav { padding: 16px 0; }
 
-            .hero h1 {
-                font-size: 1.625rem;
-            }
-            .hero .subtitle {
-                font-size: 0.9375rem;
-            }
-            .hero-icon {
-                font-size: 2.5rem;
-            }
-
+            /* Hero */
+            .hero { padding: 44px 0 36px; }
+            .hero-icon { font-size: 2.5rem; margin-bottom: 12px; }
+            .hero h1 { font-size: 1.5rem; margin-bottom: 12px; }
+            .hero .subtitle { font-size: 0.875rem; margin-bottom: 20px; }
             .trust-badges {
                 flex-direction: column;
                 align-items: center;
+                gap: 6px;
+                margin-bottom: 20px;
             }
 
+            /* Section spacing */
+            .problem, .trust, .claude-code, .namespacing, .diy, .prompt, .comparison-section, .install {
+                padding: 36px 0;
+            }
             .problem h2, .trust h2, .claude-code h2, .namespacing h2, .diy h2, .prompt h2, .comparison-section h2, .install h2 {
                 font-size: 1.125rem;
+                margin-bottom: 8px;
             }
-
             .trust .lead, .claude-code .lead, .namespacing .lead, .diy .lead, .prompt .lead, .comparison-section .lead, .install .lead {
-                font-size: 0.875rem;
+                font-size: 0.8125rem;
+                margin-bottom: 20px;
             }
 
-            .comparison-card {
-                padding: 16px;
+            /* Code blocks — smaller font, tighter */
+            .workflow-demo, .namespace-demo, .diy-code {
+                padding: 12px;
+                border-radius: 10px;
+                margin-left: -4px;
+                margin-right: -4px;
+            }
+            .prompt-box { border-radius: 10px; margin-left: -4px; margin-right: -4px; }
+            .prompt-box pre { padding: 12px; }
+            .workflow-demo pre,
+            .namespace-demo pre,
+            .diy-code pre,
+            .prompt-box pre,
+            .comparison-card pre {
+                font-size: 0.625rem;
+                line-height: 1.5;
+                tab-size: 2;
             }
 
-            .trust-item, .namespace-feature, .use-case {
-                padding: 16px;
+            /* Cards */
+            .comparison-card { padding: 14px; border-radius: 10px; }
+            .comparison-card h3 { font-size: 0.8125rem; margin-bottom: 12px; }
+            .trust-item, .namespace-feature, .use-case { padding: 14px; border-radius: 8px; }
+            .trust-item h3, .namespace-feature h3, .use-case h3 { font-size: 0.875rem; }
+            .trust-item p, .namespace-feature p, .use-case p { font-size: 0.8125rem; }
+
+            /* Table — card-style on small screens */
+            .comparison-table { font-size: 0.6875rem; }
+            .comparison-table th, .comparison-table td { padding: 8px; }
+            .comparison-table th:first-child, .comparison-table td:first-child {
+                min-width: 80px;
             }
 
-            .install-code {
-                font-size: 0.6875rem;
+            /* Install */
+            .install-code { font-size: 0.6875rem; padding: 10px 12px; }
+            .install-links a { font-size: 0.8125rem; }
+
+            /* Footer */
+            footer { padding: 28px 0; }
+            footer p { font-size: 0.8125rem; }
+
+            /* Diy note */
+            .diy-note { font-size: 0.8125rem; }
+        }
+
+        /* ===== Tiny phone (360px) ===== */
+        @media (max-width: 360px) {
+            .container { padding: 0 12px; }
+            .hero h1 { font-size: 1.375rem; }
+            .hero .subtitle { font-size: 0.8125rem; }
+            .workflow-demo pre,
+            .namespace-demo pre,
+            .diy-code pre,
+            .prompt-box pre,
+            .comparison-card pre {
+                font-size: 0.5625rem;
             }
         }
     </style>
@@ -910,11 +950,11 @@ OPENAI_API_KEY=sk-proj-xyz789...
 <pre><span class="comment"># Your .secrets.json - AI sees this</span>
 {
   "project": "my-app",
-  "secrets": {
-    "STRIPE_SECRET_KEY": "Stripe API key",
-    "DATABASE_URL": "PostgreSQL connection",
-    "OPENAI_API_KEY": "OpenAI API key"
-  }
+  "secrets": [
+    "STRIPE_SECRET_KEY",
+    "DATABASE_URL",
+    "OPENAI_API_KEY"
+  ]
 }
 
 <span class="comment"># AI assistant suggests:</span>
@@ -975,10 +1015,7 @@ OPENAI_API_KEY=sk-proj-xyz789...
 <span class="file">~/myproject/.secrets.json</span>
 {
   "project": "myproject",
-  "secrets": {
-    "DATABASE_URL": "PostgreSQL connection string",
-    "API_KEY": "Main API key"
-  }
+  "secrets": ["DATABASE_URL", "API_KEY"]
 }
 
 <span class="comment"># Claude Code sees the manifest, suggests:</span>
@@ -1005,10 +1042,7 @@ OPENAI_API_KEY=sk-proj-xyz789...
 <span class="file">~/project-a/.secrets.json</span>
 {
   "project": "project-a",
-  "secrets": {
-    "SUPABASE_URL": "Production Supabase instance",
-    "SUPABASE_KEY": "Production anon key"
-  }
+  "secrets": ["SUPABASE_URL", "SUPABASE_KEY"]
 }
 
 <span class="cmd">$ cd ~/project-a</span>
@@ -1019,10 +1053,7 @@ OPENAI_API_KEY=sk-proj-xyz789...
 <span class="file">~/project-b/.secrets.json</span>
 {
   "project": "project-b",
-  "secrets": {
-    "SUPABASE_URL": "Staging Supabase instance",
-    "SUPABASE_KEY": "Staging anon key"
-  }
+  "secrets": ["SUPABASE_URL", "SUPABASE_KEY"]
 }
 
 <span class="cmd">$ cd ~/project-b</span>
