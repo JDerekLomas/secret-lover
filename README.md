@@ -17,12 +17,18 @@ Store secrets in macOS Keychain. Create a `.secrets.json` manifest that tells AI
 ```json
 {
   "project": "my-app",
-  "secrets": {
-    "STRIPE_SECRET_KEY": "Stripe API key",
-    "DATABASE_URL": "PostgreSQL connection"
+  "secrets": [
+    "STRIPE_SECRET_KEY",
+    "DATABASE_URL"
+  ],
+  "env": {
+    "NODE_ENV": "production"
   }
 }
 ```
+
+- `secrets` — names of keys stored in macOS Keychain (fetched via Touch ID)
+- `env` — static values injected directly (no Keychain lookup)
 
 AI sees the manifest, suggests: `secret-lover run -- npm run dev`
 

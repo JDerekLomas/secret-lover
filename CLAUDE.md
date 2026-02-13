@@ -52,13 +52,19 @@ secret-lover verify
 
 ```json
 {
-  "_note": "Secrets in Keychain. Run: secret-lover run -- <cmd>",
-  "secrets": {
-    "DATABASE_URL": "PostgreSQL connection string",
-    "API_KEY": "Main API key"
+  "project": "my-app",
+  "secrets": [
+    "DATABASE_URL",
+    "API_KEY"
+  ],
+  "env": {
+    "NODE_ENV": "development"
   }
 }
 ```
+
+- `secrets` — array of key names stored in macOS Keychain (fetched via Touch ID)
+- `env` — static key-value pairs injected directly (no Keychain lookup)
 
 ## Key Files
 - `bin/secret-lover` - CLI implementation
