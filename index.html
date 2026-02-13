@@ -1086,34 +1086,43 @@ OPENAI_API_KEY=sk-proj-xyz789...
 
     <section class="prompt" id="prompt">
         <div class="container">
-            <h2>Just want to tell Claude Code what to do?</h2>
-            <p class="lead">Copy this to your CLAUDE.md or paste it in chat. No install needed.</p>
+            <h2>Add to your CLAUDE.md</h2>
+            <p class="lead">Drop this in your global instructions so Claude Code knows how to handle secrets.</p>
 
             <div class="prompt-box">
                 <div class="prompt-header">
-                    <span>Copy to ~/.claude/CLAUDE.md or paste in chat</span>
+                    <span>Copy to ~/.claude/CLAUDE.md</span>
                     <button class="copy-btn" onclick="copyPrompt()">Copy</button>
                 </div>
-<pre id="claude-prompt">## Secrets Management
+<pre id="claude-prompt">## Secrets Management (secret-lover)
 
-Never store secrets in .env files. Use macOS Keychain instead.
+Secrets are in macOS Keychain, NOT .env files. Check `.secrets.json` for what a project needs.
 
-**To store a secret:**
-security add-generic-password -a "SECRET_NAME" -s "my-secrets" -w "value"
+```bash
+secret-lover list              # See what's stored
+secret-lover get NAME          # Retrieve a secret (Touch ID)
+secret-lover add NAME          # Store a new secret
+secret-lover run -- &lt;cmd&gt;      # Run command with all secrets injected
+secret-lover verify            # Check all project secrets exist
+```
 
-**To use secrets in commands:**
-SECRET_NAME=$(security find-generic-password -a "SECRET_NAME" -s "my-secrets" -w) npm run dev
+**.secrets.json format:**
+```json
+{
+  "secrets": ["API_KEY", "DATABASE_URL"],
+  "env": { "NODE_ENV": "production" }
+}
+```
+- `secrets` array = names of keys in Keychain (fetched via Touch ID)
+- `env` object = static values injected directly
 
-**When I need secrets:**
-1. Check if .secrets.json exists (lists what secrets the project needs)
-2. Suggest the keychain command pattern above
-3. Never ask me to create .env files or export secrets in shell
-
-**If a secret is missing:**
-Tell me to add it: security add-generic-password -a "NAME" -s "my-secrets" -w</pre>
+**Rules:**
+- Never search for .env files, hardcode secrets, or suggest `export VAR=value`
+- To run with secrets: `secret-lover run -- npm run dev`
+- If a secret is missing: `secret-lover add NAME`</pre>
             </div>
 
-            <p class="diy-note">That's it. Claude Code will use Keychain commands instead of .env files.</p>
+            <p class="diy-note">Claude Code will use secret-lover instead of .env files for all credential access.</p>
         </div>
     </section>
 
