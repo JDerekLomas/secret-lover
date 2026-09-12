@@ -1,78 +1,43 @@
 # Secret Lover
 
-**The one who keeps your secrets**
+**Keep secrets out of AI transcripts.** macOS Keychain CLI, per-project namespacing, one-command injection, and a scrubber.
 
-A credential manager that keeps secrets out of AI agent reach using macOS Keychain with Touch ID.
+## Status: Working (rev. 2026-09-12)
 
-## Status: Working
+`/usr/local/bin/secret-lover` is a symlink to `bin/secret-lover` here; the Swift helper lives beside it in `bin/`.
+Rebuild the helper with `swiftc -O src/keychain-helper.swift -o bin/keychain-helper && codesign -s - --entitlements src/entitlements.plist bin/keychain-helper`.
 
-Globally installed at `/usr/local/bin/secret-lover`. Touch ID authentication working.
+## How an agent should use it
+
+- Never ask for or print a value. Check presence with `sh -c 'echo ${#NAME}'` inside `run`.
+- Inject at point of use: `secret-lover run --project P --secret NAME -- <cmd>` (no manifest needed),
+  or `secret-lover run -- <cmd>` where a `.secrets.json` exists.
+- If told "it's in secret-lover as NAME", use `--global` scope unless a project is named.
+- `run` never prompts (policy `auto`). `get` prompts only on a terminal.
+- A "not found" message lists the namespaces that do hold the name. Use `--project` accordingly.
+- `secret-lover scrub` scans `~/.claude`, `~/.claude-archive`, shell history and the access log for
+  known secret values. `--fix` redacts in place. Do not `--fix` before credentials have been rotated:
+  the transcripts are the evidence of what needs rotating.
 
 ## Commands
 
 ```bash
-# Core secret management
-secret-lover add NAME [VALUE]   # Store secret (prompts if no value)
-secret-lover get NAME           # Retrieve (triggers Touch ID)
-secret-lover list               # List all secret names
-secret-lover delete NAME        # Remove a secret
-
-# Project integration
-secret-lover init               # Create .secrets.json template
-secret-lover verify             # Check all project secrets exist
-secret-lover run -- <command>   # Run with secrets injected
-
-# Diagnostics
-secret-lover check              # Test Touch ID & Keychain
+secret-lover add NAME [VALUE] [--global]
+secret-lover get NAME
+secret-lover run [--project P] [--secret K]... [--all] [--timeout S] -- <cmd>
+secret-lover import FILE.env [--project P | --global]
+secret-lover list [--all]      secret-lover verify      secret-lover delete NAME
+secret-lover scrub [--fix] [--min-length N] [--skip REGEX] [PATHS...]
 ```
 
-## How It Works
+## Security, stated plainly
 
-1. Secrets stored in macOS Keychain (login keychain)
-2. Projects declare needed secrets in `.secrets.json`
-3. `secret-lover run` reads manifest, fetches from Keychain, exports as env vars
-4. Touch ID/password required for retrieval
-5. All access logged to `~/.secret-lover/access.log`
+Items are ordinary login-Keychain items with no access control. Any process running as the user can read
+them without a prompt; Touch ID is a confirmation step in front of an unprotected read, and the 60 s
+auth cache is a plain timestamp file. The value of the tool is hygiene (values never enter chat, history
+or logs) plus namespacing and an audit trail. It is not a boundary.
 
-## Example Usage
-
-```bash
-# Add a secret
-secret-lover add OPENAI_API_KEY
-
-# Run a command with all project secrets
-cd ~/myproject
-secret-lover run -- npm run dev
-
-# Verify project has all secrets
-secret-lover verify
-```
-
-## .secrets.json Format
-
-```json
-{
-  "project": "my-app",
-  "secrets": [
-    "DATABASE_URL",
-    "API_KEY"
-  ],
-  "env": {
-    "NODE_ENV": "development"
-  }
-}
-```
-
-- `secrets` — array of key names stored in macOS Keychain (fetched via Touch ID)
-- `env` — static key-value pairs injected directly (no Keychain lookup)
-
-## Key Files
-- `bin/secret-lover` - CLI implementation
-- `index.html` - Landing page (orange/amber theme)
-- `test/.secrets.json` - Test project
-
-## Security
-- Secrets never written to disk (except Keychain)
-- No .env files needed
-- AI assistants see manifest, not values
-- Access audit trail in `~/.secret-lover/access.log`
+## Key files
+- `bin/secret-lover` — CLI
+- `src/keychain-helper.swift` — Touch ID + Keychain helper (`add`, `get`, `get-auth`, `delete`, `list`, `list-all`)
+- `index.html` — landing page (secret-lover.dev, Vercel)

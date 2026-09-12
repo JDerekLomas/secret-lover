@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Lover - Keep secrets out of AI reach</title>
+    <title>Secret Lover - Keep secrets out of AI transcripts</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -888,8 +888,8 @@
     <section class="hero">
         <div class="container">
             <div class="hero-icon">🤫</div>
-            <h1>Keep secrets out of AI reach</h1>
-            <p class="subtitle">When AI coding assistants can read your .env files, that's a problem. Store secrets in macOS Keychain with Touch ID protection. AI sees what you need, not the values.</p>
+            <h1>Keep secrets out of AI transcripts</h1>
+            <p class="subtitle">AI coding agents need your API keys to work. They don't need to see them. Store secrets in macOS Keychain, inject them into one command at the moment of use, and scrub any that leaked into chat logs.</p>
 
             <div class="trust-badges">
                 <a href="https://github.com/JDerekLomas/secret-lover" class="github-badge">
@@ -997,9 +997,9 @@ OPENAI_API_KEY=sk-proj-xyz789...
                 <div class="trust-item">
                     <h3>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Touch ID approval
+                        Honest about the boundary
                     </h3>
-                    <p>Every secret access requires your fingerprint. See exactly what's being accessed. Deny anytime.</p>
+                    <p>Any process running as you can read the login Keychain, so this is hygiene, not a wall. Touch ID confirms before a value is printed; injection is silent, so agents never block.</p>
                 </div>
             </div>
         </div>
@@ -1127,6 +1127,7 @@ For static values in the `env` object, export them directly.
 **Rules:**
 - Never create .env files or suggest `export VAR=value` in shell
 - Never hardcode secret values in code
+- Never echo, cat or log a secret value; check presence with `${#NAME}`
 - If `.secrets.json` exists, check it to know what secrets are needed
 - If a secret is missing from Keychain, tell me to add it</pre>
             </div>
@@ -1217,7 +1218,7 @@ For static values in the `env` object, export them directly.
                 </div>
                 <div class="use-case">
                     <h3>Use secret-lover when:</h3>
-                    <p>You're a developer using AI assistants and want Touch ID-protected secrets that stay out of AI context.</p>
+                    <p>You're a developer using AI agents and want your secrets to stay out of chat transcripts, shell history and logs.</p>
                 </div>
             </div>
         </div>
