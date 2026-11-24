@@ -37,6 +37,14 @@ them without a prompt; Touch ID is a confirmation step in front of an unprotecte
 auth cache is a plain timestamp file. The value of the tool is hygiene (values never enter chat, history
 or logs) plus namespacing and an audit trail. It is not a boundary.
 
+## Tripwire alerts
+
+Every logged GET/INJECT/ADD/DELETE of a name listed in `~/.secret-lover/alerts.conf` (`WATCH="..."`) raises a
+Mac notification and, when `NTFY_TOPIC` is set, a high-priority ntfy push (token from
+`~/.config/sourcelibrary/ntfy.env`). One alert per name and action per `THROTTLE_SECONDS` (default 300). The
+config is local and never committed: the watchlist and topic name are not public. Off: `SECRET_LOVER_ALERTS=0`.
+Limit: it sees only reads that go through secret-lover. A process reading the Keychain directly is not logged.
+
 ## Key files
 - `bin/secret-lover` — CLI
 - `src/keychain-helper.swift` — Touch ID + Keychain helper (`add`, `get`, `get-auth`, `delete`, `list`, `list-all`)
